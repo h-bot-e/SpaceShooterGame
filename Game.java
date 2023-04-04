@@ -28,6 +28,7 @@ public class Game {
     }
 
     public void draw(Graphics g) {
+
         // Draw the background
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, WIDTH, HEIGHT);
