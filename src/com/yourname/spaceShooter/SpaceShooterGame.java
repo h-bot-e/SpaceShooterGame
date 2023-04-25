@@ -6,19 +6,13 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 
 public class SpaceShooterGame extends JPanel implements ActionListener, KeyListener, MouseListener{
 
-
-	private Timer timer = new Timer(5, this);
+    private Timer timer = new Timer(5, this);
     private int x = 640, y = 360, size = 40;
     private double velX = 0, velY = 0, angle = 0;
     private boolean leftPressed = false, rightPressed = false, forwardPressed = false, backwardPressed = false;
-    private boolean pausedGame = false;
     private final double acceleration = 0.2;
     private final double friction = 0.02;
     private int flameHeight = 20;
@@ -28,12 +22,12 @@ public class SpaceShooterGame extends JPanel implements ActionListener, KeyListe
     private List<Projectile> projectiles = new ArrayList<>();
     private List<Asteroid> asteroids = new ArrayList<>(); // add this line to store the asteroids
     private boolean projectileFired = false;
-    private boolean isPaused = false;
-    private Random rand = new Random(); // create a single Random object to generate star positions
-    private PauseUI pause = new PauseUI();
-    private TitleUI title;
-    private boolean paused = false;
 
+    private Random rand = new Random(); // create a single Random object to generate star positions
+    private PauseUI pause;
+    private TitleUI title;
+    
+    
     //Checks which state the game is on
     private enum State{
     	Pause,
@@ -94,11 +88,7 @@ public class SpaceShooterGame extends JPanel implements ActionListener, KeyListe
             g2d.fillOval(projectile.x, projectile.y, 5, 5);
         }
         
-        if (isPaused) {
-        	pause.render(g);
-        }
-        
-        if(STATE == State.Game && !paused) {
+        if(STATE == State.Game) {
 
 	        // Draw the asteroids
 	        for (Asteroid asteroid : asteroids) {
@@ -134,8 +124,8 @@ public class SpaceShooterGame extends JPanel implements ActionListener, KeyListe
 	            g2d.fill(flickerFlame);
 	            g2d.rotate(-Math.toRadians(angle), x, y); // undo rotation transform
 	        }
-	    }else if (titleSTATE == State.Title){
-	    	title.render(g);					//CHANGE
+	    }else if (titleSTATE == State.Title){ //HARIS
+	    	title.render(g);
 	    }
 }
 
@@ -207,7 +197,7 @@ public class SpaceShooterGame extends JPanel implements ActionListener, KeyListe
             }
         }
         projectiles.removeAll(projectilesToRemove);
-        if(STATE == State.Game && !paused) {
+        if(STATE == State.Game) {
 	        // Move the asteroids and check for asteroid collisions with the spaceship
 	        for (Asteroid asteroid : asteroids) {
 	            asteroid.move();
@@ -229,7 +219,7 @@ public class SpaceShooterGame extends JPanel implements ActionListener, KeyListe
             projectile.setY(projectile.getY() + (int) projectile.getVelY());
 
             // Check for collisions with each asteroid
-            if(STATE == State.Game && !paused) {
+            if(STATE == State.Game) {
 	            for (Asteroid asteroid : asteroids) {   	
 	                int dx = asteroid.getX() - projectile.getX();
 	                int dy = asteroid.getY() - projectile.getY();
@@ -271,7 +261,7 @@ public class SpaceShooterGame extends JPanel implements ActionListener, KeyListe
     }
 
     public void mousePressed(MouseEvent e) {
-    	if(STATE == State.Game && !paused) {
+    	if(STATE == State.Game) {
 	        if (SwingUtilities.isLeftMouseButton(e)) {
 	            int projectileX = x + (int) (size * Math.sin(Math.toRadians(angle)));
 	            int projectileY = y - (int) (size * Math.cos(Math.toRadians(angle)));
@@ -287,27 +277,13 @@ public class SpaceShooterGame extends JPanel implements ActionListener, KeyListe
             // Do nothing
         }
     }
+
+
     
-    public void togglePause() {
-        isPaused = !isPaused;
-        if (isPaused) {
-        	pause.render(getGraphics());
-        }
-    }
-    
-    public void keyPressed(KeyEvent e, Graphics g) {
-    	
-    	int key = e.getKeyCode();
-    	
-        if (key == KeyEvent.VK_ESCAPE) {
-        	isPaused = !isPaused;
-        	paused = !paused;
-            //pause.setIsPaused(true);
-        	//repaint();
-        	//System.out.println("Hello2");
-        //	System.out.println("Hello");
-        }
-    	
+    public void keyPressed(KeyEvent e) {
+    	if(STATE == State.Game) {
+        int key = e.getKeyCode();
+
         if (key == KeyEvent.VK_A) {
             leftPressed = true;
         }
@@ -329,13 +305,12 @@ public class SpaceShooterGame extends JPanel implements ActionListener, KeyListe
             projectiles.add(new Projectile(projectileX, projectileY, projectileVelX, projectileVelY));
             projectileFired = true;
         }
-        
+    	}
     }
 
-
-	public void keyReleased(KeyEvent e) {
+    public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
-        
+
         if (key == KeyEvent.VK_A) {
             leftPressed = false;
         }
@@ -355,6 +330,7 @@ public class SpaceShooterGame extends JPanel implements ActionListener, KeyListe
         }
     }
 
+    
     public static void main(String[] args) {
         JFrame frame = new JFrame("Space Shooter Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -381,14 +357,4 @@ public class SpaceShooterGame extends JPanel implements ActionListener, KeyListe
 		// TODO Auto-generated method stub
 		
 	}
-	
-	@Override
-	public void keyPressed(KeyEvent e) {
-	    if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-	    	pause.setIsPaused(true);
-	        System.out.println("Hello");
-	    	paused = !paused;
-	    	pause.render(getGraphics());
-	    	}
-	    }
-	}
+}
