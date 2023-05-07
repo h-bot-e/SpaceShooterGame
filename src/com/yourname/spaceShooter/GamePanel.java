@@ -18,12 +18,13 @@ public class GamePanel extends JPanel {
                 int mouseY = e.getY();
                 GameState currentState = stateManager.getCurrentState();
 
-                if (currentState == GameState.TITLE) {
-                    if (stateManager.getTitleUI().isPlayButtonClicked(mouseX, mouseY)) {
-                        stateManager.startGame();
-                        repaint(); // Add this line to refresh the panel after changing the game state.
-                    }
-                }
+//                if (currentState == GameState.TITLE) {
+//                    if (stateManager.getTitleUI().isPlayButtonClicked(mouseX, mouseY)) {
+//                       stateManager.startGame();
+//
+//                repaint(); // Add this line to refresh the panel after changing the game state.
+//                    }
+//                }
                 // Handle other mouse events for different game states, for example: PauseUI
             }
         });

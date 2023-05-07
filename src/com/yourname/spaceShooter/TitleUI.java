@@ -6,10 +6,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
+
 public class TitleUI {
     public Rectangle playButton = new Rectangle(Game.WIDTH / 2 + 140, 315, 200, 50);
     public Rectangle settingsButton = new Rectangle(Game.WIDTH / 2 + 140, 415, 200, 50);
     public Rectangle exitButton = new Rectangle(Game.WIDTH / 2 + 140, 515, 200, 50);
+    private SpaceShooterGame spaceshootergame;
+   
+	
     
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -41,7 +45,16 @@ public class TitleUI {
     
     }
 
-    public boolean isPlayButtonClicked(int mouseX, int mouseY) {
-        return playButton.contains(mouseX, mouseY);
+    public void mouseClicked(int mouseX, int mouseY) {
+        if (playButton.contains(mouseX, mouseY)) {
+        	spaceshootergame = new SpaceShooterGame();
+        	//change game state to "game"
+        	spaceshootergame.STATE = spaceshootergame.STATE.Game;
+        } else if (settingsButton.contains(mouseX, mouseY)) {
+            System.out.println("Settings button clicked");
+        } else if (exitButton.contains(mouseX, mouseY)) {
+        	//close screen
+        	 System.exit(0);
+        }
     }
 }

@@ -9,7 +9,8 @@ import java.util.Random;
 
 public class SpaceShooterGame extends JPanel implements ActionListener, KeyListener, MouseListener{
 
-    private Timer timer = new Timer(5, this);
+
+	private Timer timer = new Timer(5, this);
     private int x = 640, y = 360, size = 40;
     private double velX = 0, velY = 0, angle = 0;
     private boolean leftPressed = false, rightPressed = false, forwardPressed = false, backwardPressed = false;
@@ -29,7 +30,7 @@ public class SpaceShooterGame extends JPanel implements ActionListener, KeyListe
     
     
     //Checks which state the game is on
-    private enum State{
+    public static enum State{
     	Pause,
     	Title,
     	Game
@@ -44,9 +45,11 @@ public class SpaceShooterGame extends JPanel implements ActionListener, KeyListe
         timer.start();
         addKeyListener(this);
         addMouseListener(this);  // Add a mouse listener instead of a key listener
+        addMouseListener(new MouseInput()); //Mouse listener for title page
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
 
+       
         // Generate positions for the stars
         for (int i = 0; i < 50; i++) {
             int starX = rand.nextInt(1280);
@@ -64,7 +67,17 @@ public class SpaceShooterGame extends JPanel implements ActionListener, KeyListe
             asteroids.add(new Asteroid(asteroidX, asteroidY, asteroidSize, asteroidVelocityX, asteroidVelocityY));
         }
     }
-
+    
+    //TitleUI functionality for Buttons
+    private class MouseInput extends MouseAdapter {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            int mouseX = e.getX();
+            int mouseY = e.getY();
+            title.mouseClicked(mouseX, mouseY);
+        }
+    }
+        
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.BLACK);
