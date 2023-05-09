@@ -16,8 +16,11 @@ jobs:
       with:
         java-version: 16
 
-    - name: Build and run Java program
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Compile and run Java program
       run: |
-        find . -name "*.java" > sources.txt
-        javac @sources.txt
-        java com.yourname.spaceShooter.Game
+        cd path/to/java/files
+        javac -d . com/yourname/spaceShooter/*.java
+        java -cp . com.yourname.spaceShooter.Game
