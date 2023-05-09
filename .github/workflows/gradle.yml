@@ -1,6 +1,5 @@
 name: gradle
 
-
 on: [push, pull_request]
 
 jobs:
@@ -14,8 +13,8 @@ jobs:
     - name: Set up Java
       uses: actions/setup-java@v2
       with:
-        java-version: 'latest'
-        distribution: 'adopt' # or 'openjdk'
+        java-version: '11'
+        distribution: 'temurin'
 
     - name: Build with Maven
       run: mvn clean install
