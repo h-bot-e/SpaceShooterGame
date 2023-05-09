@@ -1,12 +1,7 @@
 name: gradle
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+
+on: [push, pull_request]
 
 jobs:
   build:
@@ -16,13 +11,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up JDK 11
+    - name: Set up Java
       uses: actions/setup-java@v2
       with:
-        java-version: 11
+        java-version: 'latest'
 
     - name: Build with Maven
-      run: mvn package
+      run: mvn clean install
 
     - name: Run tests
       run: mvn test
