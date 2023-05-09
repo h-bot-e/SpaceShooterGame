@@ -18,7 +18,6 @@ jobs:
 
     - name: Build and run Java program
       run: |
-        cd src/com/yourname/spaceShooter
-        src/com/yourname/spaceShooter
-        javac Game.java
-        java Game
+        find . -name "*.java" > sources.txt
+        javac @sources.txt
+        java com.yourname.spaceShooter.Game
