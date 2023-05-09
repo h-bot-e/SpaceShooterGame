@@ -21,6 +21,5 @@ jobs:
 
     - name: Compile and run Java program
       run: |
-        cd path/to/java/files
         javac -d . com/yourname/spaceShooter/*.java
         java -cp . com.yourname.spaceShooter.Game
