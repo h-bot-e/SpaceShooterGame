@@ -1,0 +1,22 @@
+name: Game
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set up JDK
+      uses: actions/setup-java@v1
+      with:
+        java-version: 16
+
+    - name: Build and run Java program
+      run: |
+        javac Game.java
+        java Game
